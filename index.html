@@ -18,11 +18,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 6rem; /* Større tekststørrelse */
+            font-size: 8rem; /* Større tekst */
             font-family: Arial, sans-serif;
             color: white;
             opacity: 0;
-            animation: fadeIn 3s ease-in-out forwards 10s; /* Forsinket fade-in */
+            animation: fadeIn 5s ease-in-out forwards 15s; /* Endret timing */
         }
         @keyframes fadeIn {
             0% { opacity: 0; }
@@ -31,10 +31,10 @@
     </style>
 </head>
 <body>
-    <!-- Ordet Sulale -->
-    <div id="text">Sulale</div>
+    <!-- Sulale-tekst -->
+    <div id="text">SULALE</div>
 
-    <!-- Lyd med kontroller for debugging -->
+    <!-- Lyd -->
     <audio id="background-audio" src="Sulale_Habibi.mp4" autoplay loop controls></audio>
 
     <script>
@@ -51,16 +51,16 @@
             constructor(x, y, color) {
                 this.x = x;
                 this.y = y;
-                this.radius = Math.random() * 4 + 1;
+                this.radius = Math.random() * 6 + 2; // Større partikler
                 this.color = color;
-                this.speedX = (Math.random() - 0.5) * 2; /* Lavere hastighet */
-                this.speedY = (Math.random() - 0.5) * 2; /* Lavere hastighet */
+                this.speedX = (Math.random() - 0.5) * 1.5; // Lav hastighet
+                this.speedY = (Math.random() - 0.5) * 1.5; // Lav hastighet
             }
 
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                this.radius -= 0.02; /* Partiklene varer lenger */
+                this.radius -= 0.01; // Partiklene varer lenger
                 if (this.radius < 0) this.radius = 0;
             }
 
@@ -74,7 +74,7 @@
 
         function createBigBang() {
             const colors = ["red", "orange", "yellow", "green", "blue", "purple", "white"];
-            for (let i = 0; i < 300; i++) {
+            for (let i = 0; i < 500; i++) {
                 const x = canvas.width / 2;
                 const y = canvas.height / 2;
                 const color = colors[Math.floor(Math.random() * colors.length)];
@@ -99,10 +99,12 @@
         createBigBang();
         animate();
 
-        // Spill av lyd
+        // Test lydavspilling
         const audio = document.getElementById("background-audio");
-        audio.play().catch(error => {
-            console.error("Kunne ikke spille av lyd:", error);
+        audio.play().then(() => {
+            console.log("Lyd spiller!");
+        }).catch(error => {
+            console.error("Lydfeil:", error);
         });
     </script>
 </body>
