@@ -12,6 +12,9 @@
         }
         canvas {
             display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         #text {
             position: absolute;
@@ -20,10 +23,12 @@
             transform: translate(-50%, -50%);
             font-size: 8rem; /* Større tekst */
             font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, purple, red);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             color: white;
             opacity: 0;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
-            animation: fadeInText 3s ease-in-out forwards 3s; /* Sulale vises 3 sekunder senere */
+            animation: fadeInText 3s ease-in-out forwards 3s; /* Sulale vises 3 sekunder etter start */
         }
         @keyframes fadeInText {
             0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
@@ -36,7 +41,7 @@
     <div id="text">SULALE</div>
 
     <!-- Lyd -->
-    <audio id="background-audio" src="https://www.dropbox.com/scl/fi/urrl52zuvrjp1dozgl4y5/Sulale_Habibi.mp4.-5.mp4?rlkey=tdtumly9x6n2p1hi6dve5d63p&st=gppf3vw2&dl=1" autoplay loop></audio>
+    <audio id="background-audio" src="https://www.dropbox.com/scl/fi/urrl52zuvrjp1dozgl4y5/Sulale_Habibi.mp4.-5.mp4?rlkey=tdtumly9x6n2p1hi6dve5d63p&dl=1" autoplay loop></audio>
 
     <script>
         const canvas = document.createElement("canvas");
@@ -54,8 +59,8 @@
                 this.y = y;
                 this.radius = Math.random() * 6 + 2; // Større partikler
                 this.color = color;
-                this.speedX = (Math.random() - 0.5) * 3; // Kontrollert hastighet
-                this.speedY = (Math.random() - 0.5) * 3; // Kontrollert hastighet
+                this.speedX = (Math.random() - 0.5) * 2; // Lavere hastighet
+                this.speedY = (Math.random() - 0.5) * 2; // Lavere hastighet
             }
 
             update() {
@@ -87,7 +92,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach((particle, index) => {
                 if (particle.radius <= 0) {
-                    particles.splice(index, 1);
+                    particles[index] = new Particle(canvas.width / 2, canvas.height / 2, particle.color);
                 } else {
                     particle.update();
                     particle.draw();
@@ -107,8 +112,8 @@
             });
         }
 
-        // Vent 3 sekunder før alt starter
-        setTimeout(startAnimationAndSound, 3000);
+        // Start umiddelbart
+        startAnimationAndSound();
     </script>
 </body>
 </html>
