@@ -21,33 +21,42 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 8rem; /* Større tekst */
+            font-size: 8rem;
             font-family: Arial, sans-serif;
             background: linear-gradient(45deg, red, orange, yellow, green, blue, purple, red);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            color: white;
             opacity: 0;
-            animation: fadeInText 3s ease-in-out forwards 3s; /* Sulale vises 3 sekunder etter start */
+            animation: fadeInText 3s ease-in-out forwards 3s;
         }
         @keyframes fadeInText {
             0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
             100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
+        #play-audio {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
-    <!-- Sulale-tekst -->
     <div id="text">SULALE</div>
-
-    <!-- Lyd -->
+    <canvas></canvas>
+    <button id="play-audio">Start Lyd</button>
     <audio id="background-audio" src="https://www.dropbox.com/scl/fi/urrl52zuvrjp1dozgl4y5/Sulale_Habibi.mp4.-5.mp4?rlkey=tdtumly9x6n2p1hi6dve5d63p&dl=1" loop></audio>
 
     <script>
-        const canvas = document.createElement("canvas");
-        document.body.appendChild(canvas);
+        const canvas = document.querySelector("canvas");
         const ctx = canvas.getContext("2d");
-
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
@@ -57,16 +66,16 @@
             constructor(x, y, color) {
                 this.x = x;
                 this.y = y;
-                this.radius = Math.random() * 6 + 2; // Større partikler
+                this.radius = Math.random() * 6 + 2;
                 this.color = color;
-                this.speedX = (Math.random() - 0.5) * 2; // Lavere hastighet
-                this.speedY = (Math.random() - 0.5) * 2; // Lavere hastighet
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.speedY = (Math.random() - 0.5) * 2;
             }
 
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                this.radius -= 0.02; // Partiklene varer lenger
+                this.radius -= 0.02;
                 if (this.radius < 0) this.radius = 0;
             }
 
@@ -101,20 +110,16 @@
             requestAnimationFrame(animate);
         }
 
-        // Start Big Bang og lyd samtidig
         const audio = document.getElementById("background-audio");
-
-        function startAnimationAndSound() {
-            createBigBang();
-            animate();
-            audio.play().catch(error => {
+        document.getElementById("play-audio").addEventListener("click", () => {
+            audio.play().then(() => {
+                createBigBang();
+                animate();
+                document.getElementById("play-audio").style.display = "none";
+            }).catch(error => {
                 console.error("Lydfeil:", error);
-                alert("Klikk for å starte lyden!");
             });
-        }
-
-        // Start umiddelbart
-        startAnimationAndSound();
+        });
     </script>
 </body>
 </html>
