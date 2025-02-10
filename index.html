@@ -22,11 +22,12 @@
             font-family: Arial, sans-serif;
             color: white;
             opacity: 0;
-            animation: fadeIn 5s ease-in-out forwards 15s; /* Endret timing */
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            animation: fadeInText 3s ease-in-out forwards 3s; /* Sulale vises 3 sekunder senere */
         }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
     </style>
 </head>
@@ -35,7 +36,7 @@
     <div id="text">SULALE</div>
 
     <!-- Lyd -->
-    <audio id="background-audio" src="https://www.dropbox.com/scl/fi/urrl52zuvrjp1dozgl4y5/Sulale_Habibi.mp4.-5.mp4?rlkey=tdtumly9x6n2p1hi6dve5d63p&st=gppf3vw2&dl=1" autoplay loop controls></audio>
+    <audio id="background-audio" src="https://www.dropbox.com/scl/fi/urrl52zuvrjp1dozgl4y5/Sulale_Habibi.mp4.-5.mp4?rlkey=tdtumly9x6n2p1hi6dve5d63p&st=gppf3vw2&dl=1" autoplay loop></audio>
 
     <script>
         const canvas = document.createElement("canvas");
@@ -53,14 +54,14 @@
                 this.y = y;
                 this.radius = Math.random() * 6 + 2; // Større partikler
                 this.color = color;
-                this.speedX = (Math.random() - 0.5) * 1.5; // Lav hastighet
-                this.speedY = (Math.random() - 0.5) * 1.5; // Lav hastighet
+                this.speedX = (Math.random() - 0.5) * 3; // Kontrollert hastighet
+                this.speedY = (Math.random() - 0.5) * 3; // Kontrollert hastighet
             }
 
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                this.radius -= 0.01; // Partiklene varer lenger
+                this.radius -= 0.02; // Partiklene varer lenger
                 if (this.radius < 0) this.radius = 0;
             }
 
@@ -74,7 +75,7 @@
 
         function createBigBang() {
             const colors = ["red", "orange", "yellow", "green", "blue", "purple", "white"];
-            for (let i = 0; i < 500; i++) {
+            for (let i = 0; i < 300; i++) {
                 const x = canvas.width / 2;
                 const y = canvas.height / 2;
                 const color = colors[Math.floor(Math.random() * colors.length)];
@@ -95,17 +96,19 @@
             requestAnimationFrame(animate);
         }
 
-        // Start Big Bang
-        createBigBang();
-        animate();
-
-        // Test lydavspilling
+        // Start Big Bang og lyd samtidig
         const audio = document.getElementById("background-audio");
-        audio.play().then(() => {
-            console.log("Lyd spiller!");
-        }).catch(error => {
-            console.error("Lydfeil:", error);
-        });
+
+        function startAnimationAndSound() {
+            createBigBang();
+            animate();
+            audio.play().catch(error => {
+                console.error("Lydfeil:", error);
+            });
+        }
+
+        // Vent 3 sekunder før alt starter
+        setTimeout(startAnimationAndSound, 3000);
     </script>
 </body>
 </html>
