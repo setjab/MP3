@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Big Bang Simulation Test</title>
+    <title>Big Bang Simulation with Sulale</title>
     <style>
         body {
             margin: 0;
@@ -18,11 +18,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 4rem;
+            font-size: 6rem; /* Større tekststørrelse */
             font-family: Arial, sans-serif;
             color: white;
             opacity: 0;
-            animation: fadeIn 3s ease-in-out forwards 5s;
+            animation: fadeIn 3s ease-in-out forwards 10s; /* Forsinket fade-in */
         }
         @keyframes fadeIn {
             0% { opacity: 0; }
@@ -31,10 +31,10 @@
     </style>
 </head>
 <body>
-    <!-- Ord "Sulale" som vises etter Big Bang -->
+    <!-- Ordet Sulale -->
     <div id="text">Sulale</div>
 
-    <!-- Lyd som spiller av -->
+    <!-- Lyd -->
     <audio id="background-audio" src="Sulale_Habibi.mp4" autoplay loop></audio>
 
     <script>
@@ -53,14 +53,14 @@
                 this.y = y;
                 this.radius = Math.random() * 4 + 1;
                 this.color = color;
-                this.speedX = (Math.random() - 0.5) * 4;
-                this.speedY = (Math.random() - 0.5) * 4;
+                this.speedX = (Math.random() - 0.5) * 2; /* Lavere hastighet */
+                this.speedY = (Math.random() - 0.5) * 2; /* Lavere hastighet */
             }
 
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                this.radius -= 0.05;
+                this.radius -= 0.02; /* Partiklene varer lenger */
                 if (this.radius < 0) this.radius = 0;
             }
 
@@ -95,8 +95,15 @@
             requestAnimationFrame(animate);
         }
 
+        // Start Big Bang
         createBigBang();
         animate();
+
+        // Spill av lyd
+        const audio = document.getElementById("background-audio");
+        audio.play().catch(error => {
+            console.error("Kunne ikke spille av lyd:", error);
+        });
     </script>
 </body>
 </html>
