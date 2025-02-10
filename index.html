@@ -41,7 +41,7 @@
     <div id="text">SULALE</div>
 
     <!-- Lyd -->
-    <audio id="background-audio" src="https://www.dropbox.com/scl/fi/urrl52zuvrjp1dozgl4y5/Sulale_Habibi.mp4.-5.mp4?rlkey=tdtumly9x6n2p1hi6dve5d63p&dl=1" autoplay loop></audio>
+    <audio id="background-audio" src="https://www.dropbox.com/scl/fi/urrl52zuvrjp1dozgl4y5/Sulale_Habibi.mp4.-5.mp4?rlkey=tdtumly9x6n2p1hi6dve5d63p&dl=1" loop></audio>
 
     <script>
         const canvas = document.createElement("canvas");
@@ -109,6 +109,7 @@
             animate();
             audio.play().catch(error => {
                 console.error("Lydfeil:", error);
+                alert("Klikk for å starte lyden!");
             });
         }
 
